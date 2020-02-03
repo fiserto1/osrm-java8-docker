@@ -3,6 +3,9 @@ FROM osrm/osrm-backend
 # Dockerfile Maintainer                                                         
 MAINTAINER Tomas Fiser "tomas.fiser7@gmail.com"
 
+# Some bug on Debian - https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=863199
+RUN mkdir -p /usr/share/man/man1
+
 # This is in accordance to : https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
 RUN apt-get update && \
 	apt-get install -y openjdk-8-jdk && \
