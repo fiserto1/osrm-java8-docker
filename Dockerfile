@@ -26,3 +26,32 @@ RUN apt-get update && \
 # Setup JAVA_HOME, this is useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 RUN export JAVA_HOME
+
+
+COPY data /opt
+
+# Go to workdir with OSRM binary files
+WORKDIR /usr/local/bin
+
+# Prepare data for OSRM Driving
+RUN osrm-extract /opt/prague/prague.osm.pbf -p /opt/car.lua && \
+    mkdir /opt/prague/driving && \
+    mv /opt/prague/prague.osrm* /opt/prague/driving && \
+    osrm-contract /opt/prague/driving/prague.osrm;
+
+# Prepare data for OSRM Cycling
+RUN osrm-extract /opt/prague/prague.osm.pbf -p /opt/bicycle.lua && \
+    mkdir /opt/prague/cycling && \
+    mv /opt/prague/prague.osrm* /opt/prague/cycling && \
+    osrm-contract /opt/prague/cycling/prague.osrm;
+
+# Prepare data for OSRM Walking
+RUN osrm-extract /opt/prague/prague.osm.pbf -p /opt/foot.lua && \
+    mkdir /opt/prague/walking && \
+    mv /opt/prague/prague.osrm* /opt/prague/walking && \
+    osrm-contract /opt/prague/walking/prague.osrm;
+
+# Run server for ALL MODES
+#RUN osrm-routed --ip=127.0.0.1 --port=5000 /opt/prague/driving/prague.osrm < /dev/null &> /dev/null &
+#RUN osrm-routed --ip=127.0.0.1 --port=5001 /opt/prague/cycling/prague.osrm < /dev/null &> /dev/null &
+#RUN osrm-routed --ip=127.0.0.1 --port=5002 /opt/prague/walking/prague.osrm < /dev/null &> /dev/null &
