@@ -51,7 +51,4 @@ RUN osrm-extract /opt/prague/prague.osm.pbf -p /opt/foot.lua && \
     mv /opt/prague/prague.osrm* /opt/prague/walking && \
     osrm-contract /opt/prague/walking/prague.osrm;
 
-# Run server for ALL MODES
-#RUN osrm-routed --ip=127.0.0.1 --port=5000 /opt/prague/driving/prague.osrm < /dev/null &> /dev/null &
-#RUN osrm-routed --ip=127.0.0.1 --port=5001 /opt/prague/cycling/prague.osrm < /dev/null &> /dev/null &
-#RUN osrm-routed --ip=127.0.0.1 --port=5002 /opt/prague/walking/prague.osrm < /dev/null &> /dev/null &
+RUN mkdir /data
